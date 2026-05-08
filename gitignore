@@ -1,6 +1,0 @@
-*.class
-*.jar
-out/
-.idea/
-.vscode/
-*.iml
