@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Representa um Funcionário administrativo da academia.
+ * Estende {@link Pessoa} — requisito CP2: herança.
+ */
 public class Funcionario extends Pessoa {
     private String cargo;
     private String turno;
@@ -19,7 +23,7 @@ public class Funcionario extends Pessoa {
         exibirInformacoesBasicas();
         System.out.println("Cargo: " + cargo);
         System.out.println("Turno: " + turno);
-        System.out.println("Salário: R$ " + String.format("%.2f", salario));
+        System.out.printf("Salário: R$ %.2f%n", salario);
     }
 
     @Override

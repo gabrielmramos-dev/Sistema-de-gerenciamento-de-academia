@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Representa um Plano de assinatura da academia.
+ * Contém nome, descrição, valor mensal, duração e benefícios.
+ */
 public class Plano {
     private int id;
     private String nome;

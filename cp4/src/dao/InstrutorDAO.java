@@ -5,6 +5,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO para a entidade Instrutor.
+ * Responsável por todas as operações de persistência (CRUD) de instrutores no banco.
+ */
 public class InstrutorDAO {
 
     public boolean inserir(Instrutor instrutor) {
@@ -16,13 +20,10 @@ public class InstrutorDAO {
             stmt.setString(3, instrutor.getTelefone());
             stmt.setString(4, instrutor.getEspecialidade());
             stmt.setString(5, instrutor.getHorariosTrabalho());
-
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        instrutor.setId(rs.getInt(1));
-                    }
+                    if (rs.next()) instrutor.setId(rs.getInt(1));
                 }
                 return true;
             }
@@ -40,12 +41,8 @@ public class InstrutorDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 instrutores.add(new Instrutor(
-                    rs.getInt("id"),
-                    rs.getString("nome"),
-                    rs.getString("cpf"),
-                    rs.getString("telefone"),
-                    rs.getString("especialidade"),
-                    rs.getString("horarios_trabalho")
+                    rs.getInt("id"), rs.getString("nome"), rs.getString("cpf"),
+                    rs.getString("telefone"), rs.getString("especialidade"), rs.getString("horarios_trabalho")
                 ));
             }
         } catch (SQLException e) {
@@ -62,12 +59,8 @@ public class InstrutorDAO {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return new Instrutor(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("cpf"),
-                        rs.getString("telefone"),
-                        rs.getString("especialidade"),
-                        rs.getString("horarios_trabalho")
+                        rs.getInt("id"), rs.getString("nome"), rs.getString("cpf"),
+                        rs.getString("telefone"), rs.getString("especialidade"), rs.getString("horarios_trabalho")
                     );
                 }
             }

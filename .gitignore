@@ -10,3 +10,4 @@ out/
 .project
 Thumbs.db
 .DS_Store
+config.properties

@@ -1,13 +1,27 @@
 package model;
-import java.time.LocalDate;
 
-public class Aluno extends Pessoa {
+import util.Auditavel;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Representa um Aluno matriculado na academia.
+ *
+ * Implementa {@link Auditavel} — requisito CP4: interface de auditoria.
+ * Estende {@link Pessoa} — requisito CP2/CP3: herança.
+ */
+public class Aluno extends Pessoa implements Auditavel {
     private String email;
     private LocalDate dataNascimento;
     private LocalDate dataMatricula;
     private Plano plano;
 
-    public Aluno(int id, String nome, String cpf, String telefone, String email, 
+    /** Histórico de ações auditadas nesta entidade. */
+    private final List<String> historico = new ArrayList<>();
+
+    public Aluno(int id, String nome, String cpf, String telefone, String email,
                  LocalDate dataNascimento, LocalDate dataMatricula, Plano plano) {
         super(id, nome, cpf, telefone);
         this.email = email;
@@ -23,22 +37,43 @@ public class Aluno extends Pessoa {
         System.out.println("Email: " + email);
         System.out.println("Data de Matrícula: " + dataMatricula);
         System.out.println("Plano: " + (plano != null ? plano.getNome() : "Nenhum"));
-        System.out.println("Status do Plano: " + (isPlanoAtivo() ? "Ativo" : "Vencido"));
+        System.out.println("Status do Plano: " + (isPlanoAtivo() ? "[Ativo]" : "[Vencido]"));
         System.out.println("Data de Vencimento: " + getDataVencimentoPlano());
     }
 
     @Override
     public double calcularCustoMensal() {
-        return 0; // Alunos não representam custo, mas sim receita
+        // Alunos representam receita; custo mensal é zero para a entidade Aluno
+        return 0;
     }
 
+    /** Calcula a data de vencimento com base na matrícula e duração do plano. */
     public LocalDate getDataVencimentoPlano() {
         if (plano == null) return dataMatricula;
         return dataMatricula.plusMonths(plano.getDuracaoMeses());
     }
 
+    /** Verifica se o plano ainda está dentro da validade. */
     public boolean isPlanoAtivo() {
-        return LocalDate.now().isBefore(getDataVencimentoPlano()) || LocalDate.now().isEqual(getDataVencimentoPlano());
+        LocalDate vencimento = getDataVencimentoPlano();
+        return !LocalDate.now().isAfter(vencimento);
+    }
+
+    // --- Implementação da interface Auditavel ---
+
+    @Override
+    public void registrarLog(String acao) {
+        String entrada = LocalDateTime.now() + " | ALUNO[" + id + "] | " + acao;
+        historico.add(entrada);
+        System.out.println("📝 Log: " + entrada);
+    }
+
+    @Override
+    public String obterHistorico() {
+        if (historico.isEmpty()) return "Nenhum registro de auditoria para este aluno.";
+        StringBuilder sb = new StringBuilder("=== HISTÓRICO DO ALUNO " + nome + " ===\n");
+        historico.forEach(log -> sb.append("  ").append(log).append("\n"));
+        return sb.toString();
     }
 
     // Getters e Setters

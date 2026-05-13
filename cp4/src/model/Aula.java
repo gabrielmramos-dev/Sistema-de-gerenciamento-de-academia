@@ -1,6 +1,10 @@
 package model;
+
 import java.time.LocalDateTime;
 
+/**
+ * Representa uma Aula coletiva oferecida pela academia.
+ */
 public class Aula {
     private int id;
     private String nome;
@@ -10,7 +14,8 @@ public class Aula {
     private int duracaoMinutos;
     private Instrutor instrutor;
 
-    public Aula(int id, String nome, String descricao, int capacidadeMaxima, LocalDateTime horario, int duracaoMinutos, Instrutor instrutor) {
+    public Aula(int id, String nome, String descricao, int capacidadeMaxima,
+                LocalDateTime horario, int duracaoMinutos, Instrutor instrutor) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
