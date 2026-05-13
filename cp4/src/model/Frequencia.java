@@ -1,6 +1,10 @@
 package model;
+
 import java.time.LocalDateTime;
 
+/**
+ * Representa um registro de entrada (frequência) de um Aluno na academia.
+ */
 public class Frequencia {
     private int id;
     private Aluno aluno;

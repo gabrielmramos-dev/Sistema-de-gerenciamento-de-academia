@@ -1,14 +1,18 @@
 package dao;
 
 import model.Frequencia;
-import model.Aluno;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDateTime;
 
+/**
+ * DAO para a entidade Frequencia.
+ * Responsável por registrar e consultar frequências de alunos no banco.
+ */
 public class FrequenciaDAO {
 
+    /** Registra a entrada de um aluno na academia com timestamp atual. */
     public boolean registrarEntrada(int idAluno) {
         String sql = "INSERT INTO frequencia (id_aluno) VALUES (?)";
         try (Connection conn = ConexaoBD.getConexao();
@@ -21,6 +25,7 @@ public class FrequenciaDAO {
         return false;
     }
 
+    /** Retorna todas as frequências de um aluno ordenadas da mais recente para a mais antiga. */
     public List<Frequencia> listarPorAluno(int idAluno) {
         List<Frequencia> frequencias = new ArrayList<>();
         String sql = "SELECT * FROM frequencia WHERE id_aluno = ? ORDER BY data_hora_entrada DESC";
@@ -29,11 +34,8 @@ public class FrequenciaDAO {
             stmt.setInt(1, idAluno);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    frequencias.add(new Frequencia(
-                        rs.getInt("id"),
-                        null, // Aluno será preenchido se necessário fora daqui
-                        rs.getTimestamp("data_hora_entrada").toLocalDateTime()
-                    ));
+                    frequencias.add(new Frequencia(rs.getInt("id"), null,
+                        rs.getTimestamp("data_hora_entrada").toLocalDateTime()));
                 }
             }
         } catch (SQLException e) {
@@ -42,6 +44,7 @@ public class FrequenciaDAO {
         return frequencias;
     }
 
+    /** Conta o total de visitas de um aluno. */
     public int contarVisitas(int idAluno) {
         String sql = "SELECT COUNT(*) FROM frequencia WHERE id_aluno = ?";
         try (Connection conn = ConexaoBD.getConexao();
@@ -56,6 +59,7 @@ public class FrequenciaDAO {
         return 0;
     }
 
+    /** Retorna a data/hora da última visita de um aluno, ou null se nunca visitou. */
     public LocalDateTime buscarUltimaVisita(int idAluno) {
         String sql = "SELECT MAX(data_hora_entrada) FROM frequencia WHERE id_aluno = ?";
         try (Connection conn = ConexaoBD.getConexao();

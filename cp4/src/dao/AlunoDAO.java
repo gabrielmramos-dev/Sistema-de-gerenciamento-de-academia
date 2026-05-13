@@ -6,6 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO para a entidade Aluno.
+ * Responsável por todas as operações de persistência (CRUD) de alunos no banco.
+ */
 public class AlunoDAO {
 
     public boolean inserir(Aluno aluno) {
@@ -18,18 +22,12 @@ public class AlunoDAO {
             stmt.setString(4, aluno.getEmail());
             stmt.setDate(5, Date.valueOf(aluno.getDataNascimento()));
             stmt.setDate(6, Date.valueOf(aluno.getDataMatricula()));
-            if (aluno.getPlano() != null) {
-                stmt.setInt(7, aluno.getPlano().getId());
-            } else {
-                stmt.setNull(7, Types.INTEGER);
-            }
-
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
+            if (aluno.getPlano() != null) stmt.setInt(7, aluno.getPlano().getId());
+            else stmt.setNull(7, Types.INTEGER);
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
                 try (ResultSet rs = stmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        aluno.setId(rs.getInt(1));
-                    }
+                    if (rs.next()) aluno.setId(rs.getInt(1));
                 }
                 return true;
             }
@@ -51,14 +49,9 @@ public class AlunoDAO {
                     p = new Plano(rs.getInt("id_plano"), rs.getString("plano_nome"), "", 0, rs.getInt("duracao_meses"), "");
                 }
                 alunos.add(new Aluno(
-                    rs.getInt("id"),
-                    rs.getString("nome"),
-                    rs.getString("cpf"),
-                    rs.getString("telefone"),
-                    rs.getString("email"),
-                    rs.getDate("data_nascimento").toLocalDate(),
-                    rs.getDate("data_matricula").toLocalDate(),
-                    p
+                    rs.getInt("id"), rs.getString("nome"), rs.getString("cpf"), rs.getString("telefone"),
+                    rs.getString("email"), rs.getDate("data_nascimento").toLocalDate(),
+                    rs.getDate("data_matricula").toLocalDate(), p
                 ));
             }
         } catch (SQLException e) {
@@ -79,14 +72,9 @@ public class AlunoDAO {
                         p = new Plano(rs.getInt("id_plano"), rs.getString("plano_nome"), "", 0, rs.getInt("duracao_meses"), "");
                     }
                     return new Aluno(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("cpf"),
-                        rs.getString("telefone"),
-                        rs.getString("email"),
-                        rs.getDate("data_nascimento").toLocalDate(),
-                        rs.getDate("data_matricula").toLocalDate(),
-                        p
+                        rs.getInt("id"), rs.getString("nome"), rs.getString("cpf"), rs.getString("telefone"),
+                        rs.getString("email"), rs.getDate("data_nascimento").toLocalDate(),
+                        rs.getDate("data_matricula").toLocalDate(), p
                     );
                 }
             }
@@ -106,11 +94,8 @@ public class AlunoDAO {
             stmt.setString(4, aluno.getEmail());
             stmt.setDate(5, Date.valueOf(aluno.getDataNascimento()));
             stmt.setDate(6, Date.valueOf(aluno.getDataMatricula()));
-            if (aluno.getPlano() != null) {
-                stmt.setInt(7, aluno.getPlano().getId());
-            } else {
-                stmt.setNull(7, Types.INTEGER);
-            }
+            if (aluno.getPlano() != null) stmt.setInt(7, aluno.getPlano().getId());
+            else stmt.setNull(7, Types.INTEGER);
             stmt.setInt(8, aluno.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {

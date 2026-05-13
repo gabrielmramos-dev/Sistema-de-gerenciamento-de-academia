@@ -1,0 +1,5 @@
+# Modelo de configuração — copie este arquivo para config.properties
+# e preencha com suas credenciais locais
+db.url=jdbc:postgresql://localhost:5432/academia_db
+db.user=postgres
+db.password=SUA_SENHA_AQUI

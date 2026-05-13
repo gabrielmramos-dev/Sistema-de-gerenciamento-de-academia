@@ -1,5 +1,12 @@
 package model;
 
+/**
+ * Superclasse abstrata que representa uma Pessoa no sistema da academia.
+ * Centraliza atributos e comportamentos comuns a Aluno, Instrutor e Funcionario.
+ *
+ * Requisito CP2: Herança e Polimorfismo
+ * Requisito CP3: Classe Abstrata com métodos abstratos e concretos
+ */
 public abstract class Pessoa {
     protected int id;
     protected String nome;
@@ -13,15 +20,15 @@ public abstract class Pessoa {
         this.telefone = telefone;
     }
 
-    // Método Abstrato - Requisito CP3
+    /** Método abstrato — cada subclasse exibe suas informações específicas. */
     public abstract void exibirDetalhes();
 
-    // Método Abstrato - Requisito CP2 (Manutenção de código)
+    /** Método abstrato — cada subclasse define seu custo mensal. */
     public abstract double calcularCustoMensal();
 
-    // Método Concreto - Requisito CP3
+    /** Método concreto — exibe os atributos básicos herdados. */
     public void exibirInformacoesBasicas() {
-        System.out.println("ID: " + id + " | Nome: " + nome + " | CPF: " + cpf);
+        System.out.println("ID: " + id + " | Nome: " + nome + " | CPF: " + cpf + " | Tel: " + telefone);
     }
 
     // Getters e Setters
