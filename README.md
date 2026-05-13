@@ -33,7 +33,7 @@ Sistema de linha de comando (CLI) em Java que gerencia uma academia de ginástic
 
 ## Video Demonstrativo
 
-> Link do video: *(a preencher apos upload no YouTube)*
+> Link do video: [Demonstração](https://www.youtube.com/watch?v=cqGaUFr7tq8)  
 
 ---
 
