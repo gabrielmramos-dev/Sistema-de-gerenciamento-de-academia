@@ -7,7 +7,7 @@
 
 ## Equipe
 
-| Nome | RA |
+| Nome | RGM |
 |------|----|
 | Gabriel Macena Ramos | 45157286 |
 | Leonardo Vitale dos Santos | 45607028 |
